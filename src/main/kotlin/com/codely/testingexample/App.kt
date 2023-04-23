@@ -13,7 +13,11 @@ open class Writer() {
     fun write(msg: String) = println(msg)
 }
 
-open class App(private val writer: Writer, private val reader: Reader) {
+class Clock {
+    fun now() = LocalDate.now()
+}
+
+class App( private val writer: Writer, private val reader: Reader,private val clock: Clock) {
     fun execute() {
         writer.write("Please enter a date with the format <yyyy-MM-dd>")
         val line = reader.read()
@@ -41,13 +45,11 @@ open class App(private val writer: Writer, private val reader: Reader) {
         writer.write("Bye!")
     }
 
-    private fun LocalDate.calculateDifference() = with(Period.between(this, currentDate())) {
+    private fun LocalDate.calculateDifference() = with(Period.between(this, clock.now())) {
         when { // Es como un Switch
             years > 0 -> writer.write("The age is ${this.years} years")
             months > 0 -> writer.write("The age is ${this.years} months")
             days > 0 -> writer.write("The age is ${this.days} days")
         }
     }
-
-    protected open fun currentDate(): LocalDate = LocalDate.now()
 }
