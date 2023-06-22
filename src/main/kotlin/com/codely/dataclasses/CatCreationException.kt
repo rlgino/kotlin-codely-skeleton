@@ -1,7 +1,5 @@
 package com.codely.dataclasses
 
-import java.lang.IllegalArgumentException
-
 // All direct subclasses of a sealed class are known at compile time.
 // No other subclasses may appear outside the module and package within
 // which the sealed class is defined. For example,
@@ -17,3 +15,4 @@ class InvalidID(message: String): CatCreationException("Invalid id: $message")
 class InvalidName(message: String): CatCreationException("Invalid name: $message")
 class InvalidVaccinated(message: String): CatCreationException("Invalid vaccinated: $message")
 class InvalidBirthday(message: String): CatCreationException("Invalid birthday: $message")
+class InvalidBreed(message: String): CatCreationException("Invalid breed: $message")

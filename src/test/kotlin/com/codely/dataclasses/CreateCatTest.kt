@@ -14,14 +14,22 @@ class CreateCatTest {
         val clock = mockk<Clock>()
         val today = LocalDate.parse("2021-08-31")
         val repo = InMemoryCatList()
-        val app = CatCreator(writer, reader, clock, repo)
-        every { reader.read() } returns "69919846-7d7e-4f43-89a6-97c3627e0f2c" andThen "pepe" andThen "true"
+        val breed = Breed.from("Test")
+        val app = CatCreator(writer, reader, clock, repo, BreedSearcher(InMemoryBreedRepository()))
+        every { reader.read() } returns "69919846-7d7e-4f43-89a6-97c3627e0f2c" andThen "pepe" andThen "true" andThen "Test"
         every { clock.now() } returns today
 
         app.create()
 
         val expected =
-            Cat(ID.from("69919846-7d7e-4f43-89a6-97c3627e0f2c"), Name.from("pepe"), IsVaccinated(true), Cat.Color.BLACK, today)
+            Cat(
+                ID.from("69919846-7d7e-4f43-89a6-97c3627e0f2c"),
+                Name.from("pepe"),
+                IsVaccinated(true),
+                Cat.Color.BLACK,
+                breed,
+                today
+            )
         val result = repo.listAll()[0]
         assertEquals(expected, result)
     }
