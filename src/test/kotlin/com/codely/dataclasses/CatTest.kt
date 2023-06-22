@@ -12,9 +12,9 @@ class CatTest {
         val id = UUID.fromString("69919846-7d7e-4f43-89a6-97c3627e0f2c")
         val name = "pepe"
         val today = LocalDate.now()
-        val result = Cat.vaccinate(id, name, today)
+        val result = Cat.vaccinate(id, name, "BLACK",today)
 
-        val expected = Cat(id, name, true, today)
+        val expected = Cat(id, name, true, Cat.Color.BLACK,today)
         assertEquals(expected, result)
     }
 }

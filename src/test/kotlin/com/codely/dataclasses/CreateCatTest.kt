@@ -15,13 +15,14 @@ class CreateCatTest {
         val clock = mockk<Clock>()
         val today = LocalDate.parse("2021-08-31")
         var repo = InMemoryCatList()
-        val app = CreateCat(writer, reader, clock, repo)
+        val app = CatCreator(writer, reader, clock, repo)
         every { reader.read() } returns "69919846-7d7e-4f43-89a6-97c3627e0f2c" andThen "pepe" andThen "true"
         every { clock.now() } returns today
 
         app.create()
 
-        val expected = Cat(UUID.fromString("69919846-7d7e-4f43-89a6-97c3627e0f2c"), "pepe", true, today)
+        val expected =
+            Cat(UUID.fromString("69919846-7d7e-4f43-89a6-97c3627e0f2c"), "pepe", true, Cat.Color.BLACK, today)
         val result = repo.listAll()[0]
         assertEquals(expected, result)
     }

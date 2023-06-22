@@ -4,7 +4,7 @@ import java.time.LocalDate
 import java.time.Period
 import kotlin.system.exitProcess
 
-fun Codelyber() {
+fun ScopeFunctions() {
     // https://kotlinlang.org/docs/scope-functions.html
     println("Set the date in format <yyyy-MM-dd>")
     readlnOrNull().takeIf {// return string? it means could be null

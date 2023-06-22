@@ -22,7 +22,7 @@ class App( private val writer: Writer, private val reader: Reader,private val cl
         writer.write("Please enter a date with the format <yyyy-MM-dd>")
         val line = reader.read()
         line.takeUnless {
-            !it.isNullOrEmpty() && !it.isNullOrBlank()
+            !it.isNullOrEmpty() && it.isNotBlank()
         }?.let {
             writer.write("The introduced date <$it> is not valid")
             return

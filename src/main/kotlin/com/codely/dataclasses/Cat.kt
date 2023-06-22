@@ -16,7 +16,11 @@ proporciona las funciones: copy, toString, equals/hashCode
 y componentN(funciones para acceder al valor de cada
 atributo de la clase)
  */
-data class Cat(val id: UUID, val name: String, val isVaccinated: Boolean, val createAt: LocalDate) {
+data class Cat(val id: UUID, val name: String, val isVaccinated: Boolean, val color: Color, val createAt: LocalDate) {
+
+    enum class Color(code: String){
+        BLACK("#000000"), WHITE("#FFFFFF")
+    }
     companion object {
         /*
 Companion objects
@@ -26,19 +30,21 @@ dice el título, ¿son métodos estáticos?, esto es lo que hablaremos en el vid
 si quereís un spoiler echad un vistazo aquí:
 (https://pro.codely.com/library/introduccion-a-kotlin-tu-primera-app-174088/381069/path/step/151059335/#:~:text=echad%20un%20vistazo-,aqu%C3%AD,-Pod%C3%A9is%20ver%20el)
          */
-        fun vaccinate(id: UUID, name: String, createAt: LocalDate): Cat {
+        fun vaccinate(id: UUID, name: String, color: String, createAt: LocalDate): Cat {
             return Cat(
                 id = id,
                 name = name,
                 isVaccinated = true,
+                color = Color.valueOf(color),
                 createAt = createAt,
             )
         }
-        fun notVaccinate(id: UUID, name: String, createAt: LocalDate): Cat {
+        fun notVaccinate(id: UUID, name: String, color: String, createAt: LocalDate): Cat {
             return Cat(
                 id = id,
                 name = name,
                 isVaccinated = false,
+                color = Color.valueOf(color),
                 createAt = createAt,
             )
         }

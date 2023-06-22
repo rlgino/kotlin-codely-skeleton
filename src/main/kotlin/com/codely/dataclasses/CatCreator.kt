@@ -17,14 +17,14 @@ class Clock {
     fun now() = LocalDate.now()
 }
 
-class CreateCat(private val writer: Writer, private val reader: Reader, private val clock: Clock, private val repo: CatRepository) {
+class CatCreator(private val writer: Writer, private val reader: Reader, private val clock: Clock, private val repo: CatRepository) {
     fun create() {
         writer.write("Please enter a UUID")
         val catID = reader.read()
         catID.takeUnless {
             !it.isNullOrEmpty() && !it.isNullOrBlank()
         }?.let {
-            throw RuntimeException("You must introduce a ID")
+            throw InvalidName(it)
         }
         writer.write("Please enter a name")
         val name = reader.read()
@@ -46,6 +46,7 @@ class CreateCat(private val writer: Writer, private val reader: Reader, private 
             id =  UUID.fromString(catID),
             name = name.toString(),
             isVaccinated = isVaccinated.toBoolean(),
+            color = Cat.Color.BLACK,
             createAt = clock.now()
         )
         repo.save(cat)
