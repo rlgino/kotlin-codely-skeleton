@@ -13,5 +13,7 @@ sealed class CatCreationException(override val message: String?): IllegalArgumen
 // the set of values for an enum type is also restricted,
 // but each enum constant exists only as a single instance,
 // whereas a subclass of a sealed class can have multiple instances, each with its own state.
+class InvalidID(message: String): CatCreationException("Invalid id: $message")
 class InvalidName(message: String): CatCreationException("Invalid name: $message")
+class InvalidVaccinated(message: String): CatCreationException("Invalid vaccinated: $message")
 class InvalidBirthday(message: String): CatCreationException("Invalid birthday: $message")

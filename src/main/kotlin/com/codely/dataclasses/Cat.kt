@@ -1,7 +1,7 @@
 package com.codely.dataclasses
 
 import java.time.LocalDate
-import java.util.UUID
+import java.util.*
 
 /*
 DataClasses:
@@ -16,7 +16,7 @@ proporciona las funciones: copy, toString, equals/hashCode
 y componentN(funciones para acceder al valor de cada
 atributo de la clase)
  */
-data class Cat(val id: UUID, val name: String, val isVaccinated: Boolean, val color: Color, val createAt: LocalDate) {
+data class Cat(val id: ID, val name: Name, val isVaccinated: IsVaccinated, val color: Color, val createAt: LocalDate) {
 
     enum class Color(code: String){
         BLACK("#000000"), WHITE("#FFFFFF")
@@ -30,23 +30,58 @@ dice el título, ¿son métodos estáticos?, esto es lo que hablaremos en el vid
 si quereís un spoiler echad un vistazo aquí:
 (https://pro.codely.com/library/introduccion-a-kotlin-tu-primera-app-174088/381069/path/step/151059335/#:~:text=echad%20un%20vistazo-,aqu%C3%AD,-Pod%C3%A9is%20ver%20el)
          */
-        fun vaccinate(id: UUID, name: String, color: String, createAt: LocalDate): Cat {
+        fun from(id: ID, name: Name,  isVaccinated: IsVaccinated, color: Color, createAt: LocalDate): Cat {
+            return Cat(id, name, isVaccinated, color, createAt)
+        }
+        fun vaccinate(id: ID, name: Name, color: String, createAt: LocalDate): Cat {
             return Cat(
                 id = id,
                 name = name,
-                isVaccinated = true,
+                isVaccinated = IsVaccinated(true),
                 color = Color.valueOf(color),
                 createAt = createAt,
             )
         }
-        fun notVaccinate(id: UUID, name: String, color: String, createAt: LocalDate): Cat {
+        fun notVaccinate(id: ID, name: Name, color: String, createAt: LocalDate): Cat {
             return Cat(
                 id = id,
                 name = name,
-                isVaccinated = false,
+                isVaccinated = IsVaccinated(false),
                 color = Color.valueOf(color),
                 createAt = createAt,
             )
+        }
+    }
+}
+
+data class Name(val value: String) {
+    companion object{
+        fun from(value: String?): Name = if (value.isNullOrEmpty() || value.isBlank()) {
+            throw InvalidName("Empty name")
+        } else {
+            Name(value)
+        }
+    }
+}
+
+data class ID(val value: UUID) {
+    companion object{
+        fun from(value: String?): ID = if(value.isNullOrEmpty() || value.isBlank()) {
+            throw InvalidID("Empty ID")
+        } else {
+            ID(UUID.fromString(value))
+        }
+    }
+}
+
+data class IsVaccinated(val isVaccinated: Boolean) {
+    companion object {
+        fun from(value: String?) = if(value.isNullOrEmpty() || value.isBlank()) {
+            throw InvalidVaccinated("Empty value")
+        } else if(value != "true" && value != "false") {
+            throw InvalidVaccinated("value")
+        }else{
+            IsVaccinated(value == "true")
         }
     }
 }
